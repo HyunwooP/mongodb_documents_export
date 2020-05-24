@@ -1,8 +1,13 @@
-import fs from 'fs';
+import { writeFileSync, existsSync, mkdirSync } from 'fs';
 
-export default (document: object) => {
+export default (collection) => {
     
-    if (!document) throw new Error('Can not find document');
+    if (!collection) throw new Error('Can not find collection');
+    if (existsSync('./output')) {
+        writeFileSync(`./output/${collection.name}.csv`, JSON.stringify(collection.documents), 'utf-8');
+    } else {
+        mkdirSync('./output');
+        writeFileSync(`./output/${collection.name}.csv`, JSON.stringify(collection.documents), 'utf-8');
+    }
     
-    return fs.writeFile('./test.csv', document);
 }

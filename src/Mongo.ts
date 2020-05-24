@@ -11,16 +11,17 @@ export default async (url: string, option: object) => {
     const collections: Array<object> = await connection.db.listCollections().toArray();
 
     if (!collections) {
-        throw new Error('Empty Collection');
+        throw new Error('Can not load Collection');
     }
 
     let collectionsDocuments: Array<object> = [];
 
     for (const index of Object.keys(collections)) {
-        console.log(`================ GET START DOCUMENTS ================ ${new Date()}`);
-        collectionsDocuments.push({ index, collection: await model(collections[index].name, new Schema({})).find({}) });
+        collectionsDocuments.push({
+            name: collections[index].name,
+            documents: await model(collections[index].name, new Schema({})).find({})
+        });
     }
     
-    console.log(`================ GET END DOCUMENTS ================ ${new Date()}`);
     return collectionsDocuments;
 }
