@@ -7,7 +7,7 @@ export const worker = async () => {
         const collectionsDocuments: Array<object> = await Mongo('mongodb://localhost:27017/kda2020', {});
         
         for (const collectionsDocument of collectionsDocuments) {
-            return File(collectionsDocument);
+            File(collectionsDocument);
         }
     } catch(e) {
         console.error(e);

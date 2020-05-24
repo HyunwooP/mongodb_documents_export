@@ -29,26 +29,41 @@ export default async (url: string, option: object) => {
             if (documentLength < 5000) {
                 collectionsDocuments.push({
                     name: collectionName,
-                    documents: await model(collectionName).find({})
+                    documents: await model(collectionName).find().lean()
                 });
             } else {
                 // 5000개씩 잘라서 merge
-                // todo = heap out of memory 해결하기
                 for (let skip = 0; skip < documentLength; skip += 5000) {
-                    mergeDocuments.push(await model(collectionName).find({}).sort('_id').skip(skip).limit(skip+5000));
+                    console.log('in',collectionName);
+                    mergeDocuments.push(
+                        await model(collectionName)
+                        .find()
+                        .lean()
+                        .sort('_id')
+                        .skip(skip)
+                        .limit(5000)
+                    );
                 }
                 
-                console.log(mergeDocuments);
+                // 10만건이 넘는 경우 스택에 계속 쌓여서 메모리 힙이 나버리기 때문에 긁어온 후 제거하고 다시 스키마 생성
+                delete connection.models[collectionName];
+                delete connection.collections[collectionName];
+                await model(collectionName, new Schema({}));
 
                 collectionsDocuments.push({
                     name: collectionName,
                     documents: mergeDocuments
                 });
             }
+            
+            // back my memory
+            delete connection.models[collectionName];
+            delete connection.collections[collectionName];
         }
         
         console.log(`Get Documents Finish ${new Date()}`);
         return collectionsDocuments;
+
     } catch(e) {
         throw new Error(e);
     }
