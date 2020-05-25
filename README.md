@@ -13,11 +13,13 @@ Author: 박현우
 
 3. 프로젝트 구조
 ```
-{
-	src: {
-		Worker.ts: entry point,
-		Mongo: MongoDB 데이터 축출,
-		File: 파일 작성,
-	},
-}
+--------- src
+------------- File.ts - CSV 파일 생성
+------------- Mongo.ts - connection 및 MongoDB 데이터 축출
+------------- Worker.ts - entry point
 ```
+
+# 추가 업데이트 해야할 것
+* 특정 Collection만 뽑아서 export하기
+* Character Set 동적 제어
+* tab으로 자르는 방식도 지원
