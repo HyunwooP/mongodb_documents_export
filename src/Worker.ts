@@ -7,7 +7,7 @@ export const Worker = async () => {
 
         const collectionsDocuments: Array<object> = await Mongo('mongodb://localhost:27017/kda2020', {});
         
-        let result: Array<string | Error> = [];
+        let result: Array<string> = [];
 
         for (const collectionsDocument of collectionsDocuments) {
             result.push(generateCSV(collectionsDocument));
@@ -20,4 +20,4 @@ export const Worker = async () => {
     }
 }
 
-Worker().then(result => console.log(result));
+Worker().then(res=> console.log(res));

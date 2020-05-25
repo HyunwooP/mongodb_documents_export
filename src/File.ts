@@ -32,6 +32,11 @@ export const generateCSV = (collection) => {
     const filePath: string = `./output/${collection.name}.csv`;
 
     try {
+
+        if (collection.documents.length < 1) {
+            return `${collection.name} EMPTY`;
+        }
+
         // output이 없다면 생성
         if (!existsSync('./output')) {
             mkdirSync('./output');
@@ -45,7 +50,7 @@ export const generateCSV = (collection) => {
         writeFileSync(filePath, '', 'utf-8');
         appendFileSync(filePath, convertToCsvFormat(collection.documents));
 
-        return 'DONE';
+        return `${collection.name} DONE`;
 
     } catch(e) {
         throw new Error(e);

@@ -45,7 +45,6 @@ export default async (url: string, option: object) => {
                     );
                 }
                 
-                
                 // 10만건이 넘는 경우 스택에 계속 쌓여서 메모리 힙이 나버리기 때문에 긁어온 후 제거하고 다시 스키마 생성
                 delete connection.models[collectionName];
                 delete connection.collections[collectionName];
