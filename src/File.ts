@@ -8,7 +8,7 @@ import {
 
 // csv file format
 const convertToCsvFormat = (arrayObj) => {
-    var str = '';
+    let str = '';
 
     for (let i = 0; i < arrayObj.length; i++) {
         let line = '';
@@ -32,7 +32,6 @@ export const generateCSV = (collection) => {
     const filePath: string = `./output/${collection.name}.csv`;
 
     try {
-
         // output이 없다면 생성
         if (!existsSync('./output')) {
             mkdirSync('./output');
@@ -44,15 +43,7 @@ export const generateCSV = (collection) => {
         }
 
         writeFileSync(filePath, '', 'utf-8');
-
-        // document가 많을 시 잘라서 Write
-        if (collection.documents.length < 1000) {
-            appendFileSync(filePath, convertToCsvFormat(collection.documents));
-        } else {
-            for (let i = 0; i < collection.documents.length; i += 1000) {
-                appendFileSync(filePath, convertToCsvFormat(collection.documents[i]));
-            }
-        }
+        appendFileSync(filePath, convertToCsvFormat(collection.documents));
 
         return 'DONE';
 

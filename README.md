@@ -23,3 +23,4 @@ Author: 박현우
 * 특정 Collection만 뽑아서 export하기
 * Character Set 동적 제어
 * tab으로 자르는 방식도 지원
+* 퍼센테이지 표시

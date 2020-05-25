@@ -7,6 +7,7 @@ export default async (url: string, option: object) => {
     }
     
     try {
+
         console.log(`Get Documents Start ${new Date()}`);
         await connect(url, option);
 
@@ -17,7 +18,6 @@ export default async (url: string, option: object) => {
         }
     
         let collectionsDocuments: Array<object> = [];
-        let mergeDocuments: Array<object> = [];
         let documentLength: number;
         let collectionName: string;
     
@@ -32,9 +32,10 @@ export default async (url: string, option: object) => {
                     documents: await model(collectionName).find().lean()
                 });
             } else {
+                let getDocuments: Array<object> = [];
                 // 5000개씩 잘라서 merge
                 for (let skip = 0; skip < documentLength; skip += 5000) {
-                    mergeDocuments.push(
+                    getDocuments.push(
                         await model(collectionName)
                         .find()
                         .lean()
@@ -44,10 +45,14 @@ export default async (url: string, option: object) => {
                     );
                 }
                 
+                
                 // 10만건이 넘는 경우 스택에 계속 쌓여서 메모리 힙이 나버리기 때문에 긁어온 후 제거하고 다시 스키마 생성
                 delete connection.models[collectionName];
                 delete connection.collections[collectionName];
                 await model(collectionName, new Schema({}));
+
+                let mergeDocuments: Array<object> = [];
+                mergeDocuments = mergeDocuments.concat(...getDocuments);
 
                 collectionsDocuments.push({
                     name: collectionName,
