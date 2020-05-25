@@ -34,7 +34,6 @@ export default async (url: string, option: object) => {
             } else {
                 // 5000개씩 잘라서 merge
                 for (let skip = 0; skip < documentLength; skip += 5000) {
-                    console.log('in',collectionName);
                     mergeDocuments.push(
                         await model(collectionName)
                         .find()
