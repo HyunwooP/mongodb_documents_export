@@ -5,7 +5,6 @@ import {
     mkdirSync,
     unlinkSync
 } from 'fs';
-import { CollectionModel } from 'Interface';
 
 // csv file format
 const convertToCsvFormat = (arrayObj: Array<object>) => {
@@ -26,7 +25,7 @@ const convertToCsvFormat = (arrayObj: Array<object>) => {
     return str;
 }
 
-export const generateCSV = (collection: CollectionModel) => {
+export const generateCSV = (collection: {name: string, documents: Array<object>}) => {
     
     if (!collection) throw new Error('Can not find collection');
     

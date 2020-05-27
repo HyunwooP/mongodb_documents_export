@@ -1,5 +1,4 @@
 import { connect, connection, model, Schema } from 'mongoose';
-import { CollectionModel } from 'Interface';
 
 export default async (url: string, option: object) => {
     
@@ -18,7 +17,7 @@ export default async (url: string, option: object) => {
             throw new Error('Can not load Collection');
         }
     
-        let collectionsDocuments: CollectionModel[] = [];
+        let collectionsDocuments: Array<{name: string, documents: Array<object>}> = [];
         let documentLength: number;
         let collectionName: string;
     
