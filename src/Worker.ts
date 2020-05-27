@@ -25,7 +25,7 @@ export const Worker = async (option: OptionModel): Promise<Array<string>> => {
 
 const option: OptionModel = {
     split: '\t', // or ','
-    url: 'mongodb://localhost:27017/kda2020',
+    url: 'mongodb://localhost:27017',
     charSet: 'utf-8',
     target: [],
     outputPath: './output'
