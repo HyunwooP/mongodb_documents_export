@@ -11,7 +11,7 @@ Author: 박현우
 # 필독!!
 * mongo url을 넣어주세요!
 
-3. 프로젝트 구조
+1. 프로젝트 구조
 ```
 --------- src
 ------------- File.ts - CSV 파일 생성
@@ -20,8 +20,48 @@ Author: 박현우
 ------------- Interface.ts - 인터페이스 정의
 ```
 
-# 추가 업데이트 해야할 것
-* 특정 Collection만 뽑아서 export하기
-* Character Set 동적 제어
-* tab으로 자르는 방식도 지원
-* 퍼센테이지 표시
+# OPTION
+```
+
+default option
+- split: ','
+- charSet: 'utf-8'
+- outputPath: './output'
+
+require
+- url
+
+const option: OptionModel = {
+    split: '\t', // or ','
+    url: 'mongodb://localhost:27017',
+    charSet: 'utf-8',
+    target: ['collection name'],
+    outputPath: './output
+};
+```
+
+# START
+```
+Worker(option)
+.then(res=> {
+    console.log(res);
+    return res;
+});
+
+or
+
+const result = await Worker(option);
+```
+
+# OUTPUT
+```
+DONE = document in file
+EMPTY = document is empty
+[
+    'collection1 DONE',
+    'collection2 EMPTY',
+]
+
+./output/collection_name.csv
+
+```

@@ -1,17 +1,21 @@
 import Mongo from './Mongo';
 import { generateCSV } from './File';
+import { OptionModel, CollectionModel } from 'Interface';
 
-export const Worker = async () => {
+export const Worker = async (option: OptionModel): Promise<Array<string>> => {
     
-    try {
+    if (!option.url) {
+        throw new Error('Can not find Mongo URL');
+    }
 
-        const collectionsDocuments: Array<{name: string, documents: Array<object>}> = await Mongo('mongodb://localhost:27017/kda2020', {});
+    try {
+        const collectionDocuments: Array<CollectionModel> = await Mongo(option, {});
         let result: Array<string> = [];
 
-        for (const collectionsDocument of collectionsDocuments) {
-            result.push(generateCSV(collectionsDocument));
+        for (const collectionDocument of collectionDocuments) {
+            result.push(generateCSV(collectionDocument, option));
         }
-
+        
         return result;
 
     } catch(e) {
@@ -19,4 +23,21 @@ export const Worker = async () => {
     }
 }
 
-Worker().then(res=> console.log(res));
+const option: OptionModel = {
+    split: '\t', // or ','
+    url: 'mongodb://localhost:27017/kda2020',
+    charSet: 'utf-8',
+    target: [],
+    outputPath: './output'
+};
+Worker(option)
+.then(res=> {
+    /**
+     * [
+     *   'collection1 DONE',
+     *   'collection2 EMPTY',
+     * ]
+     */
+    console.log(res);
+    return res;
+});
