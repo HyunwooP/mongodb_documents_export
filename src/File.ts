@@ -5,9 +5,10 @@ import {
     mkdirSync,
     unlinkSync
 } from 'fs';
+import { CollectionModel } from 'Interface';
 
 // csv file format
-const convertToCsvFormat = (arrayObj) => {
+const convertToCsvFormat = (arrayObj: Array<object>) => {
     let str = '';
 
     for (let i = 0; i < arrayObj.length; i++) {
@@ -25,7 +26,7 @@ const convertToCsvFormat = (arrayObj) => {
     return str;
 }
 
-export const generateCSV = (collection) => {
+export const generateCSV = (collection: CollectionModel) => {
     
     if (!collection) throw new Error('Can not find collection');
     
@@ -53,6 +54,6 @@ export const generateCSV = (collection) => {
         return `${collection.name} DONE`;
 
     } catch(e) {
-        throw new Error(e);
+        throw new Error(`File Error = ${e}`);
     }
 };

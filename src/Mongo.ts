@@ -1,4 +1,5 @@
 import { connect, connection, model, Schema } from 'mongoose';
+import { CollectionModel } from 'Interface';
 
 export default async (url: string, option: object) => {
     
@@ -17,7 +18,7 @@ export default async (url: string, option: object) => {
             throw new Error('Can not load Collection');
         }
     
-        let collectionsDocuments: Array<object> = [];
+        let collectionsDocuments: CollectionModel[] = [];
         let documentLength: number;
         let collectionName: string;
     
@@ -50,12 +51,9 @@ export default async (url: string, option: object) => {
                 delete connection.collections[collectionName];
                 await model(collectionName, new Schema({}));
 
-                let mergeDocuments: Array<object> = [];
-                mergeDocuments = mergeDocuments.concat(...getDocuments);
-
                 collectionsDocuments.push({
                     name: collectionName,
-                    documents: mergeDocuments
+                    documents: getDocuments.flat()
                 });
             }
             
@@ -68,6 +66,6 @@ export default async (url: string, option: object) => {
         return collectionsDocuments;
 
     } catch(e) {
-        throw new Error(e);
+        throw new Error(`Mongo Error = ${e}`);
     }
 }
