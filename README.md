@@ -17,6 +17,7 @@ Author: 박현우
 ------------- File.ts - CSV 파일 생성
 ------------- Mongo.ts - connection 및 MongoDB 데이터 축출
 ------------- Worker.ts - entry point
+------------- Interface.ts - 인터페이스 정의
 ```
 
 # 추가 업데이트 해야할 것
