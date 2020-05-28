@@ -28,7 +28,7 @@ default option
 - charSet: 'utf-8'
 - outputPath: './output'
 
-require
+const
 - url
 
 const option: OptionModel = {
