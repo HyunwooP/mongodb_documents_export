@@ -1,6 +1,6 @@
 import Mongo from './Mongo';
 import { generateCSV } from './File';
-import { OptionModel, CollectionModel } from 'Interface';
+import { OptionModel, CollectionModel } from './Interface';
 
 export const Worker = async (option: OptionModel): Promise<Array<string>> => {
     
@@ -25,7 +25,7 @@ export const Worker = async (option: OptionModel): Promise<Array<string>> => {
 
 const option: OptionModel = {
     split: '\t', // or ','
-    url: 'mongodb://localhost:27017',
+    url: 'mongodb://localhost:27017/kda2020',
     charSet: 'utf-8',
     target: [],
     outputPath: './output'

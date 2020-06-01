@@ -5,7 +5,7 @@ import {
     mkdirSync,
     unlinkSync
 } from 'fs';
-import { OptionModel, CollectionModel } from 'Interface';
+import { OptionModel, CollectionModel } from './Interface';
 
 // csv file format
 const convertToCsvFormat = (arrayObj: Array<object>, split: string): string => {

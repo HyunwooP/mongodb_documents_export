@@ -1,5 +1,5 @@
 import { connect, connection, model, Schema } from 'mongoose';
-import { CollectionModel, OptionModel } from 'Interface';
+import { CollectionModel, OptionModel } from './Interface';
 
 const generateCollectionDocuments = async (collections, index) => {
     const collectionName = collections[index].name;
