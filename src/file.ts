@@ -5,18 +5,18 @@ import {
     mkdirSync,
     unlinkSync
 } from 'fs';
-import { OptionModel, CollectionModel } from './Interface';
+import { OptionModel, CollectionModel } from './interface';
 
 // csv file format
-const convertToCsvFormat = (arrayObj: Array<object>, split: string): string => {
+const convertToCsvFormat = (documents: object[], split: string): string => {
     let str = '';
 
-    for (let i = 0; i < arrayObj.length; i++) {
+    for (let i = 0; i < documents.length; i++) {
         let line = '';
 
-        for (let index in arrayObj[i]) {
+        for (let index in documents[i]) {
             if (line !== '') line += split || ',';
-            line += arrayObj[i][index];
+            line += documents[i][index];
         }
 
         str += line + '\r\n';

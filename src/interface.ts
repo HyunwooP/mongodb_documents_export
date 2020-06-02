@@ -8,5 +8,5 @@ export type OptionModel = {
 
 export type CollectionModel = {
     name: string;
-    documents: Array<object>;
+    documents: object[];
 }

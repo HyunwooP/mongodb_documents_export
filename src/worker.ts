@@ -1,16 +1,16 @@
-import Mongo from './Mongo';
-import { generateCSV } from './File';
-import { OptionModel, CollectionModel } from './Interface';
+import Mongo from './mongo';
+import { generateCSV } from './file';
+import { OptionModel, CollectionModel } from './interface';
 
-export const Worker = async (option: OptionModel): Promise<Array<string>> => {
+export const Worker = async (option: OptionModel): Promise<string[]> => {
     
     if (!option.url) {
         throw new Error('Can not find Mongo URL');
     }
 
     try {
-        const collectionDocuments: Array<CollectionModel> = await Mongo(option, {});
-        let result: Array<string> = [];
+        const collectionDocuments: CollectionModel[] = await Mongo(option, {});
+        let result: string[] = [];
 
         for (const collectionDocument of collectionDocuments) {
             result.push(generateCSV(collectionDocument, option));

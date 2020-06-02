@@ -1,10 +1,10 @@
 import { connect, connection, model, Schema } from 'mongoose';
-import { CollectionModel, OptionModel } from './Interface';
+import { CollectionModel, OptionModel } from './interface';
 
 const generateCollectionDocuments = async (collections, index) => {
     const collectionName = collections[index].name;
     const documentLength = await model(collectionName, new Schema({})).count({});
-    let result: CollectionModel = { name: '', documents: []};
+    let result: CollectionModel;
 
     if (documentLength < 5000) {
         result = {
@@ -12,7 +12,7 @@ const generateCollectionDocuments = async (collections, index) => {
             documents: await model(collectionName).find().lean()
         };
     } else {
-        let getDocuments: Array<object> = [];
+        let getDocuments: object[] = [];
         // 5000개씩 잘라서 merge
         for (let skip = 0; skip < documentLength; skip += 5000) {
             getDocuments.push(
@@ -43,18 +43,18 @@ const generateCollectionDocuments = async (collections, index) => {
     return result;
 }
 
-export default async (option: OptionModel, mongoOption: object): Promise<Array<CollectionModel>>  => {
+export default async (option: OptionModel, mongoOption: any): Promise<CollectionModel[]>  => {
     
     try {
         await connect(option.url, mongoOption);
 
-        const collections: Array<object> = await connection.db.listCollections().toArray();
+        const collections: object[] = await connection.db.listCollections().toArray();
     
         if (!collections) {
             throw new Error('Can not load Collection');
         }
         
-        let collectionDocuments: Array<CollectionModel> = [];
+        let collectionDocuments: CollectionModel[] = [];
     
         for (const index of Object.keys(collections)) {
             // target collection documents
