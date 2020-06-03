@@ -2,7 +2,7 @@ import Mongo from './mongo';
 import { generateCSV } from './file';
 import { OptionModel, CollectionModel } from './interface';
 
-export const Worker = async (option: OptionModel): Promise<string[]> => {
+export const worker = async (option: OptionModel): Promise<string[]> => {
     
     if (!option.url) {
         throw new Error('Can not find Mongo URL');
@@ -25,12 +25,12 @@ export const Worker = async (option: OptionModel): Promise<string[]> => {
 
 const option: OptionModel = {
     split: '\t', // or ','
-    url: 'mongodb://localhost:27017/kda2020',
+    url: 'mongodb://localhost:27017',
     charSet: 'utf-8',
     target: [],
     outputPath: './output'
 };
-Worker(option)
+worker(option)
 .then(res=> {
     /**
      * [
