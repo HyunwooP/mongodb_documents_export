@@ -1,6 +1,5 @@
 import mongo from './mongo';
-import { generateCSV } from './file';
-import { OptionModel, CollectionModel } from './interface';
+import { OptionModel } from './interface';
 
 export const worker = async (option: OptionModel): Promise<string[]> => {
     
@@ -9,13 +8,7 @@ export const worker = async (option: OptionModel): Promise<string[]> => {
     }
 
     try {
-        const collectionDocuments: CollectionModel[] = await mongo(option, {});
-        let result: string[] = [];
-
-        for (const collectionDocument of collectionDocuments) {
-            result.push(generateCSV(collectionDocument, option));
-        }
-        
+        const result: string[] = await mongo(option, {});
         return result;
 
     } catch(e) {

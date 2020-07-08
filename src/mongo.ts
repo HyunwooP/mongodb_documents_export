@@ -1,5 +1,6 @@
 import { connect, connection, model, Schema } from 'mongoose';
 import { CollectionModel, OptionModel } from './interface';
+import { generateCSV } from './file';
 
 const generateCollectionDocuments = async (collections, index) => {
     const collectionName = collections[index].name;
@@ -43,7 +44,7 @@ const generateCollectionDocuments = async (collections, index) => {
     return result;
 }
 
-export default async (option: OptionModel, mongoOption: any): Promise<CollectionModel[]>  => {
+export default async (option: OptionModel, mongoOption: any): Promise<string[]>=> {
     
     try {
         await connect(option.url, mongoOption);
@@ -54,23 +55,23 @@ export default async (option: OptionModel, mongoOption: any): Promise<Collection
             throw new Error('Can not load Collection');
         }
         
-        let collectionDocuments: CollectionModel[] = [];
+        let result: string[] = [];
     
         for (const index of Object.keys(collections)) {
             // target collection documents
             if (option.target.length > 0) {
                 for (const target of option.target) {
                     if (target === collections[index].name) {
-                        collectionDocuments.push(await generateCollectionDocuments(collections, index));
+                        result.push(generateCSV(await generateCollectionDocuments(collections, index), option));
                     }
                 }
             // all collection documents
             } else {
-                collectionDocuments.push(await generateCollectionDocuments(collections, index));
+                result.push(generateCSV(await generateCollectionDocuments(collections, index), option));
             }
         }
         
-        return collectionDocuments;
+        return result;
 
     } catch(e) {
         throw new Error(`Mongo Error = ${e}`);
