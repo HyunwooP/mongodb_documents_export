@@ -1,4 +1,4 @@
-import Mongo from './mongo';
+import mongo from './mongo';
 import { generateCSV } from './file';
 import { OptionModel, CollectionModel } from './interface';
 
@@ -9,7 +9,7 @@ export const worker = async (option: OptionModel): Promise<string[]> => {
     }
 
     try {
-        const collectionDocuments: CollectionModel[] = await Mongo(option, {});
+        const collectionDocuments: CollectionModel[] = await mongo(option, {});
         let result: string[] = [];
 
         for (const collectionDocument of collectionDocuments) {
